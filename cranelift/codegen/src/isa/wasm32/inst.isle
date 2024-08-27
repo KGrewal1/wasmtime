@@ -35,7 +35,7 @@
     (popcnt32 (dst WritableXReg) (src XReg))
     (add32 (dst WritableXReg) (src1 XReg) (src2 XReg))
     (sub32 (dst WritableXReg) (src1 XReg) (src2 XReg))
-    (mul32 (dst WritableXReg)) (src1 XReg) (src2 XReg)]
+    (mul32 (dst WritableXReg) (src1 XReg) (src2 XReg))
     (sdiv32 (dst WritableXReg) (src1 XReg) (src2 XReg))
     (udiv32 (dst WritableXReg) (src1 XReg) (src2 XReg))
     (srem32 (dst WritableXReg) (src1 XReg) (src2 XReg))
@@ -65,7 +65,7 @@
     (popcnt64 (dst WritableXReg) (src XReg))
     (add64 (dst WritableXReg) (src1 XReg) (src2 XReg))
     (sub64 (dst WritableXReg) (src1 XReg) (src2 XReg))
-    (mul64 (dst WritableXReg)) (src1 XReg) (src2 XReg)]
+    (mul64 (dst WritableXReg) (src1 XReg) (src2 XReg))
     (sdiv64 (dst WritableXReg) (src1 XReg) (src2 XReg))
     (udiv64 (dst WritableXReg) (src1 XReg) (src2 XReg))
     (srem64 (dst WritableXReg) (src1 XReg) (src2 XReg))
