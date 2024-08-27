@@ -133,7 +133,7 @@
 (type FReg (primitive FReg))
 (type WritableFReg (primitive WritableFReg))
 
-(type VReg (primitive VReg))`
+(type VReg (primitive VReg))
 (type WritableVReg (primitive WritableVReg))
 
 (decl wasm_eqz32 (XReg) XReg)
