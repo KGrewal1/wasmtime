@@ -136,6 +136,18 @@
 (type VReg (primitive VReg))
 (type WritableVReg (primitive WritableVReg))
 
+;; Allocates a new  writable regs.
+(decl temp_writable_xreg () WritableXReg)
+(rule (temp_writable_xreg) (temp_writable_reg $I64))
+
+(decl temp_writable_freg () WritableFReg)
+(rule (temp_writable_freg) (temp_writable_reg $F64))
+
+(decl temp_writable_vreg () WritableVReg)
+(rule (temp_writable_vreg) (temp_writable_reg $I8X16))
+
+;; arithmetic operations
+
 (decl wasm_eqz32 (XReg) XReg)
 (rule (wasm_eqz32 a)
       (let ((dst WritableXReg (temp_writable_xreg))
