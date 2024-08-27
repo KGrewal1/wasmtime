@@ -82,6 +82,9 @@ mod pulley64;
 #[cfg(feature = "pulley")]
 mod pulley_shared;
 
+#[cfg(feature = "wasm32")]
+mod wasm32;
+
 pub mod unwind;
 
 mod call_conv;
@@ -114,6 +117,7 @@ pub fn lookup(triple: Triple) -> Result<Builder, LookupError> {
         Architecture::Riscv64 { .. } => isa_builder!(riscv64, (feature = "riscv64"), triple),
         Architecture::Pulley32 => isa_builder!(pulley32, (feature = "pulley"), triple),
         Architecture::Pulley64 => isa_builder!(pulley64, (feature = "pulley"), triple),
+        Architecture::Wasm32 => isa_builder!(wasm32, (feature = "wasm32"), triple),
         _ => Err(LookupError::Unsupported),
     }
 }

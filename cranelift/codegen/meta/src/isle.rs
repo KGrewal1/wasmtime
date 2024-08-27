@@ -43,6 +43,7 @@ pub fn get_isle_compilations(
         .join("src")
         .join("isa")
         .join("pulley_shared");
+    let src_wasm32 = codegen_crate_dir.join("src").join("isa").join("wasm32");
 
     // This is a set of ISLE compilation units.
     //
@@ -137,6 +138,17 @@ pub fn get_isle_compilations(
                 ],
                 untracked_inputs: vec![clif_lower_isle.clone()],
             },
+            // // The wasm32 instruction selector.
+            // IsleCompilation {
+            //     output: gen_dir.join("isle_wasm32.rs"),
+            //     inputs: vec![
+            //         prelude_isle.clone(),
+            //         prelude_lower_isle.clone(),
+            //         src_wasm32.join("inst.isle"),
+            //         src_wasm32.join("lower.isle"),
+            //     ],
+            //     untracked_inputs: vec![clif_lower_isle.clone()],
+            // },
         ],
     }
 }

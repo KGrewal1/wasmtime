@@ -6,6 +6,7 @@ mod arm64;
 mod pulley;
 mod riscv64;
 mod s390x;
+mod wasm32;
 pub(crate) mod x86;
 
 /// Represents known ISA target.
@@ -17,6 +18,7 @@ pub enum Isa {
     Riscv64,
     Pulley32,
     Pulley64,
+    Wasm32,
 }
 
 impl Isa {
@@ -64,6 +66,7 @@ impl fmt::Display for Isa {
             Isa::Riscv64 => write!(f, "riscv64"),
             Isa::Pulley32 => write!(f, "pulley32"),
             Isa::Pulley64 => write!(f, "pulley64"),
+            Isa::Wasm32 => write!(f, "wasm32"),
         }
     }
 }
@@ -76,6 +79,7 @@ pub(crate) fn define(isas: &[Isa]) -> Vec<TargetIsa> {
             Isa::S390x => s390x::define(),
             Isa::Riscv64 => riscv64::define(),
             Isa::Pulley32 | Isa::Pulley64 => pulley::define(),
+            Isa::Wasm32 => wasm32::define(),
         })
         .collect()
 }
