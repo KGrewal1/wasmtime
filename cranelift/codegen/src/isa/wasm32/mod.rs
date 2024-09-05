@@ -2,14 +2,10 @@ use crate::dominator_tree::DominatorTree;
 use crate::ir::{Function, Type};
 
 use crate::isa::{Builder as IsaBuilder, FunctionAlignment, TargetIsa};
-use crate::machinst::{
-    compile, CompiledCode, CompiledCodeStencil, MachInst, MachTextSectionBuilder, Reg, SigSet,
-    TextSectionBuilder, VCode,
-};
+use crate::machinst::{CompiledCode, CompiledCodeStencil, TextSectionBuilder};
 use crate::result::CodegenResult;
 use crate::settings as shared_settings;
 use alloc::{boxed::Box, vec::Vec};
-use core::fmt;
 use cranelift_control::ControlPlane;
 pub use settings::Flags as Wasm32Flags;
 use target_lexicon::{Architecture, Triple};
@@ -45,9 +41,9 @@ impl Wasm32Backend {
     /// finalizes branches. The result is ready for binary emission.
     fn compile_vcode(
         &self,
-        func: &Function,
-        domtree: &DominatorTree,
-        ctrl_plane: &mut ControlPlane,
+        _func: &Function,
+        _domtree: &DominatorTree,
+        _ctrl_plane: &mut ControlPlane,
     ) -> ! {
         todo!();
         // CodegenResult<(VCode<inst::Inst>, regalloc2::Output)> {
@@ -85,29 +81,29 @@ impl TargetIsa for Wasm32Backend {
         self.isa_flags.iter().collect()
     }
 
-    fn dynamic_vector_bytes(&self, dynamic_ty: crate::ir::Type) -> u32 {
+    fn dynamic_vector_bytes(&self, _dynamic_ty: crate::ir::Type) -> u32 {
         todo!()
     }
 
     fn compile_function(
         &self,
-        func: &Function,
-        domtree: &DominatorTree,
-        want_disasm: bool,
-        ctrl_plane: &mut ControlPlane,
+        _func: &Function,
+        _domtree: &DominatorTree,
+        _want_disasm: bool,
+        _ctrl_plane: &mut ControlPlane,
     ) -> CodegenResult<CompiledCodeStencil> {
         todo!()
     }
 
     fn emit_unwind_info(
         &self,
-        result: &CompiledCode,
-        kind: super::unwind::UnwindInfoKind,
+        _result: &CompiledCode,
+        _kind: super::unwind::UnwindInfoKind,
     ) -> CodegenResult<Option<crate::isa::unwind::UnwindInfo>> {
         todo!()
     }
 
-    fn text_section_builder(&self, num_labeled_funcs: usize) -> Box<dyn TextSectionBuilder> {
+    fn text_section_builder(&self, _num_labeled_funcs: usize) -> Box<dyn TextSectionBuilder> {
         todo!()
     }
 
@@ -123,7 +119,7 @@ impl TargetIsa for Wasm32Backend {
         false
     }
 
-    fn has_x86_blendv_lowering(&self, ty: Type) -> bool {
+    fn has_x86_blendv_lowering(&self, _ty: Type) -> bool {
         false
     }
 

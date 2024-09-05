@@ -138,17 +138,17 @@ pub fn get_isle_compilations(
                 ],
                 untracked_inputs: vec![clif_lower_isle.clone()],
             },
-            // // The wasm32 instruction selector.
-            // IsleCompilation {
-            //     output: gen_dir.join("isle_wasm32.rs"),
-            //     inputs: vec![
-            //         prelude_isle.clone(),
-            //         prelude_lower_isle.clone(),
-            //         src_wasm32.join("inst.isle"),
-            //         src_wasm32.join("lower.isle"),
-            //     ],
-            //     untracked_inputs: vec![clif_lower_isle.clone()],
-            // },
+            // The wasm32 instruction selector.
+            IsleCompilation {
+                output: gen_dir.join("isle_wasm32.rs"),
+                inputs: vec![
+                    prelude_isle.clone(),
+                    prelude_lower_isle.clone(),
+                    src_wasm32.join("inst.isle"),
+                    src_wasm32.join("lower.isle"),
+                ],
+                untracked_inputs: vec![clif_lower_isle.clone()],
+            },
         ],
     }
 }
