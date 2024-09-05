@@ -120,7 +120,7 @@ impl TargetIsa for Wasm32Backend {
     }
 
     fn has_native_fma(&self) -> bool {
-        true
+        false
     }
 
     fn has_x86_blendv_lowering(&self, ty: Type) -> bool {
