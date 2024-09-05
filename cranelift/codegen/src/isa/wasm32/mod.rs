@@ -11,7 +11,9 @@ use crate::settings as shared_settings;
 use alloc::{boxed::Box, vec::Vec};
 use core::fmt;
 use cranelift_control::ControlPlane;
+pub use settings::Flags as Wasm32Flags;
 use target_lexicon::{Architecture, Triple};
+
 // New backend:
 mod abi;
 pub(crate) mod inst;
@@ -22,7 +24,7 @@ mod settings;
 pub struct Wasm32Backend {
     triple: Triple,
     flags: shared_settings::Flags,
-    isa_flags: wasm32_settings::Flags,
+    isa_flags: settings::Flags,
 }
 
 impl Wasm32Backend {
@@ -30,7 +32,7 @@ impl Wasm32Backend {
     pub fn new_with_flags(
         triple: Triple,
         flags: shared_settings::Flags,
-        isa_flags: wasm32_settings::Flags,
+        isa_flags: settings::Flags,
     ) -> Self {
         Wasm32Backend {
             triple,
@@ -135,5 +137,20 @@ impl TargetIsa for Wasm32Backend {
 
     fn has_x86_pmaddubsw_lowering(&self) -> bool {
         false
+    }
+}
+
+/// Create a new Pulley ISA builder.
+pub fn isa_builder(triple: Triple) -> IsaBuilder {
+    assert!(matches!(triple.architecture, Architecture::Wasm32));
+
+    IsaBuilder {
+        triple,
+        setup: self::settings::builder(),
+        constructor: |triple, shared_flags, builder| {
+            let isa_flags = Wasm32Flags::new(&shared_flags, builder);
+            let backend = Wasm32Backend::new_with_flags(triple, shared_flags, isa_flags);
+            Ok(backend.wrapped())
+        },
     }
 }
