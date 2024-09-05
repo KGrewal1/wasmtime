@@ -39,6 +39,7 @@ impl Isa {
             "riscv64" | "riscv64gc" | "riscv64imac" => Some(Isa::Riscv64),
             "pulley32" => Some(Isa::Pulley32),
             "pulley64" => Some(Isa::Pulley64),
+            "wasm32" => Some(Isa::Wasm32),
             _ => None,
         }
     }
@@ -52,6 +53,7 @@ impl Isa {
             Isa::Riscv64,
             Isa::Pulley32,
             Isa::Pulley64,
+            Isa::Wasm32,
         ]
     }
 }
