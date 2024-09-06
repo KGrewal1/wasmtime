@@ -12,7 +12,7 @@ use crate::{
         BlockCall, ExternalName, Inst, InstructionData, MemFlags, Opcode, TrapCode, Value,
         ValueList,
     },
-    isa::wasm32::{abi::Wasm32CallSite, Wasm32Backend},
+    isa::wasm32::Wasm32Backend,
     machinst::{isle::*, InstOutput, MachInst, VCodeConstant, VCodeConstantData},
 };
 use generated_code::Context;

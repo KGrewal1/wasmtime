@@ -1,12 +1,14 @@
 use crate::dominator_tree::DominatorTree;
-use crate::ir::{Function, Type};
-
+use crate::ir::{self, Function, Type};
 use crate::isa::{Builder as IsaBuilder, FunctionAlignment, TargetIsa};
 use crate::machinst::{CompiledCode, CompiledCodeStencil, TextSectionBuilder};
 use crate::result::CodegenResult;
-use crate::settings as shared_settings;
+use crate::HashMap;
+use crate::{settings as shared_settings, MachBuffer, VCodeConstants};
 use alloc::{boxed::Box, vec::Vec};
 use cranelift_control::ControlPlane;
+use cranelift_entity::PrimaryMap;
+use inst::Inst;
 pub use settings::Flags as Wasm32Flags;
 use target_lexicon::{Architecture, Triple};
 
@@ -35,22 +37,6 @@ impl Wasm32Backend {
             flags,
             isa_flags,
         }
-    }
-
-    /// This performs lowering to VCode, register-allocates the code, computes block layout and
-    /// finalizes branches. The result is ready for binary emission.
-    fn compile_vcode(
-        &self,
-        _func: &Function,
-        _domtree: &DominatorTree,
-        _ctrl_plane: &mut ControlPlane,
-    ) -> ! {
-        todo!();
-        // CodegenResult<(VCode<inst::Inst>, regalloc2::Output)> {
-        // let emit_info = EmitInfo::new(self.isa_flags.clone());
-        // let sigs = SigSet::new::<abi::Wasm32MachineDeps>(func, &self.flags)?;
-        // let abi = abi::Wasm32Callee::new(func, self, &self.isa_flags, &sigs)?;
-        // compile::compile::<Wasm32Backend>(func, domtree, self, abi, emit_info, sigs, ctrl_plane)
     }
 }
 
@@ -81,18 +67,29 @@ impl TargetIsa for Wasm32Backend {
         self.isa_flags.iter().collect()
     }
 
-    fn dynamic_vector_bytes(&self, _dynamic_ty: crate::ir::Type) -> u32 {
-        todo!()
+    fn dynamic_vector_bytes(&self, _dynamic_ty: ir::Type) -> u32 {
+        16
     }
 
     fn compile_function(
         &self,
-        _func: &Function,
+        func: &Function,
         _domtree: &DominatorTree,
         _want_disasm: bool,
-        _ctrl_plane: &mut ControlPlane,
+        ctrl_plane: &mut ControlPlane,
     ) -> CodegenResult<CompiledCodeStencil> {
-        todo!()
+        let buffer = MachBuffer::<Inst>::new();
+        let constants = VCodeConstants::with_capacity(func.dfg.constants.len());
+        Ok(CompiledCodeStencil {
+            buffer: buffer.finish(&constants, ctrl_plane),
+            frame_size: 0,
+            vcode: None,
+            value_labels_ranges: HashMap::new(),
+            sized_stackslot_offsets: PrimaryMap::new(),
+            dynamic_stackslot_offsets: PrimaryMap::new(),
+            bb_starts: vec![],
+            bb_edges: vec![],
+        })
     }
 
     fn emit_unwind_info(
@@ -100,7 +97,7 @@ impl TargetIsa for Wasm32Backend {
         _result: &CompiledCode,
         _kind: super::unwind::UnwindInfoKind,
     ) -> CodegenResult<Option<crate::isa::unwind::UnwindInfo>> {
-        todo!()
+        Ok(None)
     }
 
     fn text_section_builder(&self, _num_labeled_funcs: usize) -> Box<dyn TextSectionBuilder> {
@@ -108,11 +105,14 @@ impl TargetIsa for Wasm32Backend {
     }
 
     fn function_alignment(&self) -> FunctionAlignment {
-        todo!()
+        FunctionAlignment {
+            minimum: 1,
+            preferred: 1,
+        }
     }
 
     fn page_size_align_log2(&self) -> u8 {
-        todo!()
+        16
     }
 
     fn has_native_fma(&self) -> bool {

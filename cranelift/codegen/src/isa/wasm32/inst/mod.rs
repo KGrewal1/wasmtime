@@ -85,7 +85,10 @@ impl MachInst for Inst {
     }
 
     fn function_alignment() -> FunctionAlignment {
-        todo!()
+        FunctionAlignment {
+            minimum: 1,
+            preferred: 1,
+        }
     }
 }
 

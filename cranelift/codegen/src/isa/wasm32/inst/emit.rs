@@ -59,12 +59,12 @@ impl EmitState {
 }
 
 /// Constant state used during function compilation.
-pub struct EmitInfo(settings::Flags);
+pub struct EmitInfo;
 
 impl EmitInfo {
     /// Create a constant state for emission of instructions.
-    pub fn new(flags: settings::Flags) -> Self {
-        Self(flags)
+    pub fn new() -> Self {
+        Self
     }
 }
 
