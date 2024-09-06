@@ -1,15 +1,15 @@
-use crate::machinst::LowerBackend;
+use crate::machinst::{Lower, LowerBackend};
 
 use super::Wasm32Backend;
 
 pub mod isle;
 
 impl LowerBackend for Wasm32Backend {
-    type MInst = isle::Inst;
+    type MInst = isle::MInst;
 
     fn lower(
         &self,
-        ctx: &mut crate::machinst::Lower<Self::MInst>,
+        ctx: &mut Lower<Self::MInst>,
         inst: crate::ir::Inst,
     ) -> Option<crate::machinst::InstOutput> {
         isle::lower(ctx, self, inst)
@@ -17,7 +17,7 @@ impl LowerBackend for Wasm32Backend {
 
     fn lower_branch(
         &self,
-        ctx: &mut crate::machinst::Lower<Self::MInst>,
+        ctx: &mut Lower<Self::MInst>,
         inst: crate::ir::Inst,
         targets: &[crate::MachLabel],
     ) -> Option<()> {

@@ -1,7 +1,7 @@
 use waffle::ValueDef;
 
 /// A newtype wrapper around `ValueDef`.
-#[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[derive(Clone, Debug, PartialEq, Eq, Hash)]
 pub struct Value(ValueDef);
 
 impl PartialEq<ValueDef> for Value {
@@ -16,10 +16,9 @@ impl From<Value> for ValueDef {
     }
 }
 
-impl TryFrom<ValueDef> for Value {
-    type Error = ();
-    fn try_from(r: ValueDef) -> Result<Self, Self::Error> {
-        Self::new(r).ok_or(())
+impl From<ValueDef> for Value {
+    fn from(r: ValueDef) -> Self {
+        Self::new(r)
     }
 }
 

@@ -1,9 +1,11 @@
 use crate::isa::wasm32::{inst::*, settings as wasm32_settings};
 use crate::machinst::{
-    ABIMachineSpec, ArgsAccumulator, ArgsOrRets, CallArgList, CallDest, CallRetList, FrameLayout,
-    SmallInstVec, StackAMode,
+    ABIMachineSpec, ArgsAccumulator, ArgsOrRets, CallArgList, CallDest, CallRetList, CallSite,
+    FrameLayout, SmallInstVec, StackAMode,
 };
 use crate::{ir, isa, settings, Reg, Writable};
+
+pub(crate) type Wasm32CallSite = CallSite<Wasm32MachineDeps>;
 
 pub struct Wasm32MachineDeps;
 
